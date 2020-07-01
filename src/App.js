@@ -1,7 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import {Graph} from './Graph.js';
+import {Graph} from './components/Graph.js';
 
 function App() {
   return (

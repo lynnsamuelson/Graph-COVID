@@ -1,5 +1,11 @@
 .App {
   text-align: center;
+  height: 600px;
+}
+
+.graph {
+  height: 600px;
+  margin: 0 10%;
 }
 
 .App-logo {

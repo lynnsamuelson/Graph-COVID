@@ -1,58 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import svc from '../svc/covidService';
 import { ResponsiveLine } from '@nivo/line';
+import GraphData from '../js/graphData.js';
 import moment from 'moment';
 
 export const Graph = () => {
   const [covidNumbers, setcovidNumbers] = useState([]);
-  const [reload] = useState(false);
 
   useEffect(() => {
-    let stateData = getStateData('tn', moment().subtract(14, 'days'), moment())
-    svc.getStateSummaryData('tn', moment().subtract(14, 'days'), moment()).then((result) => {
-      console.log("result", result)
-      let totalData = [];
-      result.forEach(day => {
-        if(moment(day.dateChecked) > moment().subtract(14, 'days')){
-          totalData.push({ 
-            x: moment(day.dateChecked).format('l'), 
-            y: day.positiveCasesViral
-          })
-        }
-      })
-      totalData.sort((a,b) => {
-        return moment(a.x) - moment(b.x)
-      })
-    // console.log("stateData", stateData);
-    // let totalData = [];
-    // totalData.push(stateData);
-      let total = {
-        id:"total",
-        color: "hsl(294, 70%, 50%)",
-        // data: stateData
-        data: totalData
-      }
-      console.log("total", total);
-      setcovidNumbers([total]);
-    })
-  },[reload])
-
-  const getStateData = (state, dateStart, dateEnd) => {
-    let totalData = [];
-    svc.getStateSummaryData('tn', moment().subtract(14, 'days'), moment()).then((result) => {
-      console.log("result", result)
-      result.forEach(day => {
-          totalData.push({ 
-            x: moment(day.dateChecked).format('l'), 
-            y: day.positiveCasesViral
-          })
-      })
-      totalData.sort((a,b) => {
-        return moment(a.x) - moment(b.x)
-      })
-    })
-    return totalData;
-}
+    let params = {
+      states: ['tn'],
+      startDate: moment().subtract(14, 'days'),
+      endDate: moment()
+    }
+    let dataToUse = new GraphData(params);
+    async function fetchData() {
+      let data = await dataToUse.getInitialData();
+      setcovidNumbers([data]);
+    }
+    fetchData();
+  },[])
 
   return (
     <div className="graph">

@@ -3,18 +3,25 @@ import moment from 'moment';
 
 export default class GraphData {
     constructor(params){
-        console.log("created GraphData", params);
-        this.states = params.states[0];
+        this.states = params.states;
         this.startDate = params.startDate;
         this.endDate = params.endDate;
+        this.allData = [];
     };
     async getInitialData() {
+        let promises = this.states.map(state => {
+            return this.getStateData(state);
+        })
+        let total = await Promise.all(promises);
+        
+        return this.allData;
+    }
+    async getStateData(state) {
         let totalData = [];
-        let result = await svc.getStateSummaryData(this.states, this.startDate, this.endDate)
-        console.log("result", result)
+        let result = await svc.getStateSummaryData(state, this.startDate, this.endDate);
         result.forEach(day => {
             totalData.push({ 
-                x: moment(day.dateChecked).format('l'), 
+                x: moment(day.dateChecked).format('Y-MM-DD'), 
                 y: day.positiveCasesViral
             })
         })
@@ -22,11 +29,14 @@ export default class GraphData {
             return moment(a.x) - moment(b.x)
         })
         let total = {
-            id:"total",
+            id: state,
             color: "hsl(294, 70%, 50%)",
             data: totalData
         }
-        return total;
-    }
+        this.allData.push(total);
 
+
+
+        return totalData;
+    }
 }

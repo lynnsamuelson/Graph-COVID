@@ -8,14 +8,14 @@ export const Graph = () => {
 
   useEffect(() => {
     let params = {
-      states: ['tn'],
+      states: ['mn', 'tn', 'fl', 'ny', 'mt'],
       startDate: moment().subtract(14, 'days'),
       endDate: moment()
     }
     let dataToUse = new GraphData(params);
     async function fetchData() {
       let data = await dataToUse.getInitialData();
-      setcovidNumbers([data]);
+      setcovidNumbers(data);
     }
     fetchData();
   },[])
@@ -25,7 +25,11 @@ export const Graph = () => {
       <ResponsiveLine
         data={covidNumbers}
         margin={{ top: 50, right: 110, bottom: 50, left: 70 }}
-        xScale={{ type: 'point' }}
+        xScale={{ 
+          type: "time",
+          format: "%Y-%m-%d",
+          useUTC: false
+         }}
         yScale={{
           type: 'linear', 
           min: 'auto',
@@ -35,11 +39,13 @@ export const Graph = () => {
         }}
         axisTop={null}
         axisRight={null}
+        xFormat="time:%Y-%m-%d"
         axisBottom={{
+          format: "%Y-%m-%d",
           orient: 'bottom',
           tickSize: 5,
           tickPadding: 5,
-          tickRotation: 0,
+          tickRotation: -30,
           legend: 'Date',
           legendOffset: 36,
           legendPosition: 'middle'

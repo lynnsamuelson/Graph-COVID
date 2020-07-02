@@ -24,7 +24,7 @@ export const Graph = () => {
     <div className="graph">
       <ResponsiveLine
         data={covidNumbers}
-        margin={{ top: 50, right: 110, bottom: 50, left: 70 }}
+        margin={{ top: 50, right: 110, bottom: 70, left: 70 }}
         xScale={{ 
           type: "time",
           format: "%Y-%m-%d",
@@ -47,7 +47,7 @@ export const Graph = () => {
           tickPadding: 5,
           tickRotation: -30,
           legend: 'Date',
-          legendOffset: 36,
+          legendOffset: 60,
           legendPosition: 'middle'
         }}
         axisLeft={{

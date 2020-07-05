@@ -3,22 +3,26 @@ import { ResponsiveLine } from '@nivo/line';
 import GraphData from '../js/graphData.js';
 import moment from 'moment';
 
-export const Graph = () => {
+export const Graph = ({states, startDate, endDate}) => {
   const [covidNumbers, setcovidNumbers] = useState([]);
 
+  let params = {
+    states: states,
+    // startDate: moment().subtract(14, 'days'),
+    startDate: startDate,
+    endDate: endDate
+  }
+  let dataToUse = new GraphData(params);
+
   useEffect(() => {
-    let params = {
-      states: ['mn', 'tn', 'fl', 'ny', 'mt'],
-      startDate: moment().subtract(14, 'days'),
-      endDate: moment()
-    }
-    let dataToUse = new GraphData(params);
+    console.log("use effect in graph called");
     async function fetchData() {
-      let data = await dataToUse.getInitialData();
+      let data = await dataToUse.getInitialData(states, startDate, endDate);
+      console.log("use effect in graph fetched data", data);
       setcovidNumbers(data);
     }
     fetchData();
-  },[])
+  },[states, startDate, endDate])
 
   return (
     <div className="graph">

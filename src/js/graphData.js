@@ -2,23 +2,19 @@ import svc from '../svc/covidService';
 import moment from 'moment';
 
 export default class GraphData {
-    constructor(params){
-        this.states = params.states;
-        this.startDate = params.startDate;
-        this.endDate = params.endDate;
+    constructor(){
         this.allData = [];
     };
-    async getInitialData() {
-        let promises = this.states.map(state => {
-            return this.getStateData(state);
+    async getInitialData(states, startDate, endDate) {
+        let promises = states.map(state => {
+            return this.getStateData(state, startDate, endDate);
         })
-        let total = await Promise.all(promises);
-        
+        await Promise.all(promises);
         return this.allData;
     }
-    async getStateData(state) {
+    async getStateData(state, startDate, endDate) {
         let totalData = [];
-        let result = await svc.getStateSummaryData(state, this.startDate, this.endDate);
+        let result = await svc.getStateSummaryData(state, startDate, endDate);
         result.forEach(day => {
             totalData.push({ 
                 x: moment(day.dateChecked).format('Y-MM-DD'), 
@@ -30,12 +26,9 @@ export default class GraphData {
         })
         let total = {
             id: state,
-            color: "hsl(294, 70%, 50%)",
             data: totalData
         }
         this.allData.push(total);
-
-
 
         return totalData;
     }

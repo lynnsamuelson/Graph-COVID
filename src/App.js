@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import {Graph} from './components/Graph.js';
 import {ControlPanel} from './components/ControlPanal.js';
-import GraphData from './js/graphData.js';
 import moment from 'moment';
 
 function App() {
-  const [states, setStates] = useState(['mn', 'tn', 'fl', 'mt'])
+  const [states, setStates] = useState(['mn', 'tn'])
   const [startDate, setStartDate] = useState(moment().subtract(14, 'days'));
   const [endDate, setEndDate] = useState(moment());
  
@@ -14,7 +13,6 @@ function App() {
     let newValues = states.map(state => {
       return state.value;
     })
-    console.log("states parent", newValues);
     setStates(newValues);
   }
 

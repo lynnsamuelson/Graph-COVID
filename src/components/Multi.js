@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 
 export const Multi = ({ options, onStatesUpdate, currentSelected }) => { 
+
     const handleChange = (event, newValues) => {
         onStatesUpdate(newValues);
     }

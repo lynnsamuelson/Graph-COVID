@@ -1,24 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import GraphData from '../js/graphData.js';
-import moment from 'moment';
 
 export const Graph = ({states, startDate, endDate}) => {
   const [covidNumbers, setcovidNumbers] = useState([]);
 
-  let params = {
-    states: states,
-    // startDate: moment().subtract(14, 'days'),
-    startDate: startDate,
-    endDate: endDate
-  }
-  let dataToUse = new GraphData(params);
+  let dataToUse = new GraphData();
 
   useEffect(() => {
-    console.log("use effect in graph called");
     async function fetchData() {
       let data = await dataToUse.getInitialData(states, startDate, endDate);
-      console.log("use effect in graph fetched data", data);
       setcovidNumbers(data);
     }
     fetchData();
@@ -28,7 +19,7 @@ export const Graph = ({states, startDate, endDate}) => {
     <div className="graph">
       <ResponsiveLine
         data={covidNumbers}
-        margin={{ top: 50, right: 110, bottom: 70, left: 70 }}
+        margin={{ top: 50, right: 60, bottom: 70, left: 70 }}
         xScale={{ 
           type: "time",
           format: "%Y-%m-%d",

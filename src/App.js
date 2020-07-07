@@ -25,7 +25,11 @@ function App() {
   }
   
   return (
-    <div className="App flex-grid">
+    <div>
+    <div>
+        <h3 className="center">The data displayed is from the <a href="https://covidtracking.com" target="_blank">COVID Tracking Project.</a></h3>
+      </div>
+      <div className="App flex-grid">
       <div className="col-9">
         <Graph
           states={states}
@@ -43,6 +47,7 @@ function App() {
           onChangeEndDate={updateEndDate}
         />
       </div>
+    </div>
     </div>
   );
 }

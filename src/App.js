@@ -26,28 +26,28 @@ function App() {
   
   return (
     <div>
-    <div>
+      <div>
         <h3 className="center">The data displayed is from the <a href="https://covidtracking.com" target="_blank">COVID Tracking Project.</a></h3>
       </div>
       <div className="App flex-grid">
-      <div className="col-9">
-        <Graph
-          states={states}
-          startDate={startDate}
-          endDate={endDate}
-        />
+        <div className="col-9">
+          <Graph
+            states={states}
+            startDate={startDate}
+            endDate={endDate}
+          />
+        </div>
+        <div className="col-3 control">
+          <ControlPanel 
+            onChangeStates={updateStates}
+            initialSelectedStates={states}
+            startDate={startDate}
+            endDate={endDate}
+            onChangeStartDate={updateStartDate}
+            onChangeEndDate={updateEndDate}
+          />
+        </div>
       </div>
-      <div className="col-3 control">
-        <ControlPanel 
-          onChangeStates={updateStates}
-          initialSelectedStates={states}
-          startDate={startDate}
-          endDate={endDate}
-          onChangeStartDate={updateStartDate}
-          onChangeEndDate={updateEndDate}
-        />
-      </div>
-    </div>
     </div>
   );
 }

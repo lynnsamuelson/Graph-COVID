@@ -10,15 +10,14 @@ class CovidData {
         );
         return result.data
     };
-    async getStateSummaryData(state, startDate, endDate) {
+    async getStateSummaryData(state) {
         const result = await axios(
             `https://covidtracking.com/api/v1/states/${state}/daily.json`,
         );
         let data = [];
+        console.log("api call", result.data);
         result.data.forEach(day => {
-            if(startDate.isBefore(day.dateChecked) && endDate.isAfter(day.dateChecked)){
-                data.push(day);
-            }
+            data.push(day);
         });
         return data;
     };

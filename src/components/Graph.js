@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import GraphData from '../js/graphData.js';
+import {
+  useRecoilState,
+} from 'recoil';
+import {startDateAtom, endDateAtom, selectedStatesAtom, graphTypeAtom} from '../js/atoms'
 
-export const Graph = ({states, startDate, endDate}) => {
+export const Graph = () => {
   const [covidNumbers, setcovidNumbers] = useState([]);
+  const [startDate] = useRecoilState(startDateAtom);
+  const [endDate] = useRecoilState(endDateAtom);
+  const [states] = useRecoilState(selectedStatesAtom);
+  const [graphType] = useRecoilState(graphTypeAtom);
 
   let dataToUse = new GraphData();
 
@@ -15,6 +23,11 @@ export const Graph = ({states, startDate, endDate}) => {
     fetchData();
   },[states, startDate, endDate])
 
+  if(graphType==='sevenDay') {
+    return(
+      <h1>THIS IS THE SEVEN DAY BAR GRAPH!!!</h1>
+    )
+  }else {
   return (
     <div className="graph">
       <ResponsiveLine
@@ -91,4 +104,5 @@ export const Graph = ({states, startDate, endDate}) => {
       />
     </div>
   );
+}
 }

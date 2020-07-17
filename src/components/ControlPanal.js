@@ -8,19 +8,24 @@ import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
   } from '@material-ui/pickers';
-import options from '../json/usStates.json'
+import options from '../json/usStates.json';
+import {
+  useRecoilState,
+} from 'recoil';
+import {startDateAtom, endDateAtom, selectedStatesAtom} from '../js/atoms'
 
-export const ControlPanel = ({onChangeStates, initialSelectedStates, onChangeStartDate, onChangeEndDate, startDate, endDate}) => {
-  
-  const [selectedStates, setSelectedStates] = useState(initialSelectedStates);
+export const ControlPanel = ({onChangeStates, initialSelectedStates}) => {
+  const [startDate, setStartDate] = useRecoilState(startDateAtom);
+  const [endDate, setEndDate] = useRecoilState(endDateAtom);
+  const [selectedStates, setSelectedStates] = useRecoilState(selectedStatesAtom);
   const startStates = [{ label: "Teneessee", value: 'tn' }, { label: "Minnesota", value: 'mn' }];
 
   const handleStartDateChange = (date) => {
-    onChangeStartDate(date);
+    setStartDate(date);
   };
   
   const handleEndDateChange = (date) => {
-    onChangeEndDate(date);
+    setEndDate(date);
   };
 
   const getData = () => {
@@ -28,7 +33,10 @@ export const ControlPanel = ({onChangeStates, initialSelectedStates, onChangeSta
   }
 
   const updateValues = (newValues) => {
-    setSelectedStates(newValues);
+    let valuesArray = newValues.map(val => {
+      return val.value
+    })
+    setSelectedStates(valuesArray);
   }
 
   return (
@@ -65,9 +73,6 @@ export const ControlPanel = ({onChangeStates, initialSelectedStates, onChangeSta
       </MuiPickersUtilsProvider>
       <div className="div">
         <Multi  options={options} currentSelected={startStates} onStatesUpdate={updateValues}/>
-      </div>
-      <div className="div">
-        <Button variant="contained" className="button" onClick={getData}>Update States</Button>
       </div>
     </div>
   );

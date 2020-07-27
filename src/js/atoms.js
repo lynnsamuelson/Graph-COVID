@@ -27,3 +27,8 @@ export const graphTypeAtom = atom({
     key:'graphTypeAtom',
     default: ''
 })
+
+export const barGraphDataAtom = atom({
+    key:'barGraphDataAtom',
+    default: []
+})

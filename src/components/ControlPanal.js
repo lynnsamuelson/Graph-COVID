@@ -1,7 +1,6 @@
 import 'date-fns';
 import React, { useState, useEffect } from 'react';
 import {Multi} from './Multi.js';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MomentUtils from '@date-io/moment';
 import {
@@ -74,6 +73,7 @@ export const ControlPanel = ({onChangeStates, initialSelectedStates}) => {
       <div className="div">
         <Multi  options={options} currentSelected={startStates} onStatesUpdate={updateValues}/>
       </div>
+  
     </div>
   );
 }

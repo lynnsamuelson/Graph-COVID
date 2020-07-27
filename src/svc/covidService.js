@@ -15,7 +15,7 @@ class CovidData {
             `https://covidtracking.com/api/v1/states/${state}/daily.json`,
         );
         let data = [];
-        console.log("api call", result.data);
+        // console.log("api call", result.data);
         result.data.forEach(day => {
             data.push(day);
         });

@@ -1,5 +1,5 @@
 import 'date-fns';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {Multi} from './Multi.js';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -29,10 +29,6 @@ export const ControlPanel = ({onChangeStates, initialSelectedStates}) => {
   const handleEndDateChange = (date) => {
     setEndDate(date);
   };
-
-  const getData = () => {
-    onChangeStates(selectedStates);
-  }
 
   const getSevenDayData = () => {
     if(graphType === 'bar'){

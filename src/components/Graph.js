@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ResponsiveLine } from '@nivo/line';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import GraphData from '../js/graphData.js';
 import {
   useRecoilState,
@@ -14,7 +14,7 @@ export const Graph = () => {
   const [startDate] = useRecoilState(startDateAtom);
   const [endDate] = useRecoilState(endDateAtom);
   const [states] = useRecoilState(selectedStatesAtom);
-  const [graphType, setGraphType] = useRecoilState(graphTypeAtom);
+  const [graphType] = useRecoilState(graphTypeAtom);
   const [barGraphData, setBarGraphData] = useRecoilState(barGraphDataAtom);
   const [graphKeys, setGraphKeys] = useRecoilState(graphKeysAtom);
   const [graphParams] = useState({

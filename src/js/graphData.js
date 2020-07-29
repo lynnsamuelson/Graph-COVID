@@ -3,8 +3,8 @@ import moment from 'moment';
 
 export default class GraphData {
     constructor(){
-        this.allData = []; //alldata from an api call for each state in this array
-        this.twoWeekData = []; //this is the data formated for display for the defined 2 week period. Not sure if it's needed.
+        this.allData = []; 
+        this.twoWeekData = [];
         this.sevenDayData = [];
         this.filteredData = [];
     };

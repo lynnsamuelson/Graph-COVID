@@ -1,35 +1,54 @@
 import 'date-fns';
 import React, { useState, useEffect } from 'react';
 import {Multi} from './Multi.js';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import MomentUtils from '@date-io/moment';
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
   } from '@material-ui/pickers';
-import options from '../json/usStates.json'
+import options from '../json/usStates.json';
+import {
+  useRecoilState,
+} from 'recoil';
+import {startDateAtom, endDateAtom, selectedStatesAtom, graphTypeAtom} from '../js/atoms'
 
-export const ControlPanel = ({onChangeStates, initialSelectedStates, onChangeStartDate, onChangeEndDate, startDate, endDate}) => {
-  
-  const [selectedStates, setSelectedStates] = useState(initialSelectedStates);
+export const ControlPanel = ({onChangeStates, initialSelectedStates}) => {
+  const [startDate, setStartDate] = useRecoilState(startDateAtom);
+  const [endDate, setEndDate] = useRecoilState(endDateAtom);
+  const [selectedStates, setSelectedStates] = useRecoilState(selectedStatesAtom);
   const startStates = [{ label: "Teneessee", value: 'tn' }, { label: "Minnesota", value: 'mn' }];
+  const [graphType, setGraphType] = useRecoilState(graphTypeAtom);
+
 
   const handleStartDateChange = (date) => {
-    onChangeStartDate(date);
+    setStartDate(date);
   };
   
   const handleEndDateChange = (date) => {
-    onChangeEndDate(date);
+    setEndDate(date);
   };
 
   const getData = () => {
     onChangeStates(selectedStates);
   }
 
-  const updateValues = (newValues) => {
-    setSelectedStates(newValues);
+  const getSevenDayData = () => {
+    if(graphType === 'bar'){
+      setGraphType('');
+    } else {
+      setGraphType('bar');
+    }
   }
+
+  const updateValues = (newValues) => {
+    let valuesArray = newValues.map(val => {
+      return val.value
+    })
+    setSelectedStates(valuesArray);
+  }
+  let buttonText =  graphType === 'bar'? "Back" : "Get 7 Day Averages";
 
   return (
     <div>
@@ -66,9 +85,7 @@ export const ControlPanel = ({onChangeStates, initialSelectedStates, onChangeSta
       <div className="div">
         <Multi  options={options} currentSelected={startStates} onStatesUpdate={updateValues}/>
       </div>
-      <div className="div">
-        <Button variant="contained" className="button" onClick={getData}>Update States</Button>
-      </div>
+      <Button onClick={getSevenDayData}>{buttonText}</Button>
     </div>
   );
 }

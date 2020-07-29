@@ -51,6 +51,7 @@ export default class GraphData {
     }
 
     getSevenDayDataIndividualState(states, startDate, endDate) {
+        this.sevenDayData = [];
         for(let i=0; i<states.length; i++) {
             if(this.allData.length > 0){
                 let findStateIndx = this.allData.findIndex(alldataState => 

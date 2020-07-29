@@ -29,7 +29,14 @@ export const Graph = () => {
       setcovidNumbers(data);
     }
     fetchData();
-  },[states, startDate, endDate])
+  },[states, startDate, endDate]);
+
+  useEffect(() => {
+    if(graphType === 'bar') {
+      let data = dataToUse.getSevenDayDataIndividualState(states, startDate, endDate);
+      setBarGraphData(data);
+    }
+  },[graphType]);
 
   const getData = () => {
     let data = dataToUse.getSevenDayDataIndividualState(states, startDate, endDate);
@@ -40,7 +47,6 @@ export const Graph = () => {
   if(graphType==='bar') {
     return(
       <div>
-        <h1>THIS IS THE SEVEN DAY BAR GRAPH!!!</h1>
         <BarGraph />
       </div>
     )

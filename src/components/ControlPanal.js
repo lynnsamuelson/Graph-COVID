@@ -2,6 +2,7 @@ import 'date-fns';
 import React, { useState, useEffect } from 'react';
 import {Multi} from './Multi.js';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import MomentUtils from '@date-io/moment';
 import {
     MuiPickersUtilsProvider,
@@ -11,13 +12,15 @@ import options from '../json/usStates.json';
 import {
   useRecoilState,
 } from 'recoil';
-import {startDateAtom, endDateAtom, selectedStatesAtom} from '../js/atoms'
+import {startDateAtom, endDateAtom, selectedStatesAtom, graphTypeAtom} from '../js/atoms'
 
 export const ControlPanel = ({onChangeStates, initialSelectedStates}) => {
   const [startDate, setStartDate] = useRecoilState(startDateAtom);
   const [endDate, setEndDate] = useRecoilState(endDateAtom);
   const [selectedStates, setSelectedStates] = useRecoilState(selectedStatesAtom);
   const startStates = [{ label: "Teneessee", value: 'tn' }, { label: "Minnesota", value: 'mn' }];
+  const [graphType, setGraphType] = useRecoilState(graphTypeAtom);
+
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -31,12 +34,21 @@ export const ControlPanel = ({onChangeStates, initialSelectedStates}) => {
     onChangeStates(selectedStates);
   }
 
+  const getSevenDayData = () => {
+    if(graphType === 'bar'){
+      setGraphType('');
+    } else {
+      setGraphType('bar');
+    }
+  }
+
   const updateValues = (newValues) => {
     let valuesArray = newValues.map(val => {
       return val.value
     })
     setSelectedStates(valuesArray);
   }
+  let buttonText =  graphType === 'bar'? "Back" : "Get 7 Day Averages";
 
   return (
     <div>
@@ -73,7 +85,7 @@ export const ControlPanel = ({onChangeStates, initialSelectedStates}) => {
       <div className="div">
         <Multi  options={options} currentSelected={startStates} onStatesUpdate={updateValues}/>
       </div>
-  
+      <Button onClick={getSevenDayData}>{buttonText}</Button>
     </div>
   );
 }

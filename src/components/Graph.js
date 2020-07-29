@@ -5,7 +5,7 @@ import GraphData from '../js/graphData.js';
 import {
   useRecoilState,
 } from 'recoil';
-import {startDateAtom, endDateAtom, selectedStatesAtom, graphTypeAtom, barGraphDataAtom} from '../js/atoms';
+import {startDateAtom, endDateAtom, selectedStatesAtom, graphTypeAtom, barGraphDataAtom, graphKeysAtom} from '../js/atoms';
 import {BarGraph} from './BarGraph'
 
 let dataToUse = new GraphData();
@@ -16,6 +16,7 @@ export const Graph = () => {
   const [states] = useRecoilState(selectedStatesAtom);
   const [graphType, setGraphType] = useRecoilState(graphTypeAtom);
   const [barGraphData, setBarGraphData] = useRecoilState(barGraphDataAtom);
+  const [graphKeys, setGraphKeys] = useRecoilState(graphKeysAtom);
   const [graphParams] = useState({
     yType: 'linear',
     legendLeft: 'Total COVID-19 Cases',
@@ -29,16 +30,17 @@ export const Graph = () => {
       setcovidNumbers(data);
     }
     fetchData();
-    console.log("covidNumbers2", covidNumbers);
   },[states, startDate, endDate]);
 
   useEffect(() => {
-    if(graphType === 'bar') {
-      let data = dataToUse.getSevenDayDataIndividualState(states, startDate, endDate);
-      console.log("bar graph data", data);
-      setBarGraphData(data);
+    async function fetchData() {
+      if(graphType === 'bar') {
+        let data = await dataToUse.getSevenDayDataIndividualState(states, startDate, endDate);
+        setBarGraphData(data);
+        setGraphKeys(states);
+      }
     }
-    console.log("covidNumbers1", covidNumbers);
+    fetchData();
 },[graphType, states, startDate, endDate]);
 
 

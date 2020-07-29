@@ -32,3 +32,8 @@ export const barGraphDataAtom = atom({
     key:'barGraphDataAtom',
     default: []
 })
+
+export const graphKeysAtom = atom({
+    key:'graphKeysAtom',
+    default: ['mn', 'tn']
+})

@@ -3,14 +3,15 @@ import { ResponsiveBar } from '@nivo/bar';
 import {
   useRecoilState,
 } from 'recoil';
-import {barGraphDataAtom} from '../js/atoms';
+import {barGraphDataAtom, graphKeysAtom} from '../js/atoms';
 
 
 const graphInfo = { bottomLegend: "Date" };
-const graphKeys = [ 'tn', 'mn' ];
+// const graphKeys = [ 'tn', 'mn', 'al' ];
 
 export const BarGraph = () => {
   const [barGraphData] = useRecoilState(barGraphDataAtom);
+  const [graphKeys] = useRecoilState(graphKeysAtom);
 
     return (
       <div className="graph">

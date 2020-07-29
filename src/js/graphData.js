@@ -47,18 +47,24 @@ export default class GraphData {
         } else {
             this.allData = [...this.allData, result];
         }
-        console.log("updateAllData", this.allData);
     }
 
-    getSevenDayDataIndividualState(states, startDate, endDate) {
+    async getSevenDayDataIndividualState(states, startDate, endDate) {
         this.sevenDayData = [];
         for(let i=0; i<states.length; i++) {
+            let findStateIndx = -1;
             if(this.allData.length > 0){
-                let findStateIndx = this.allData.findIndex(alldataState => 
+                findStateIndx = this.allData.findIndex(alldataState => 
                     alldataState[0].state.toLowerCase() === states[i].toString()
                 );
-                this.getAllSevenDayData(findStateIndx, startDate, endDate)
             }
+            if(findStateIndx === -1){
+                await this.getIndividualStateData(states[i]);
+                findStateIndx = this.allData.findIndex(alldataState => 
+                    alldataState[0].state.toLowerCase() === states[i].toString()
+                );
+            }
+            this.getAllSevenDayData(findStateIndx, startDate, endDate)
         }
         return this.sevenDayData;
     }
@@ -89,7 +95,6 @@ export default class GraphData {
         this.sevenDayData = this.sevenDayData.sort((a,b) => {
             return moment(a.date) - moment(b.date)
         })
-        console.log("need to sort 7 day data", this.sevenDayData);
     }
 
     getSevenDayDataByStateAndDate(index, date) {

@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 import {
   useRecoilState,
 } from 'recoil';
-import {barGraphDataAtom} from '../js/atoms';
-
-
-const graphInfo = { bottomLegend: "Date" };
-const graphKeys = [ 'tn', 'mn' ];
+import {barGraphDataAtom, graphKeysAtom} from '../js/atoms';
 
 export const BarGraph = () => {
   const [barGraphData] = useRecoilState(barGraphDataAtom);
+  const [graphKeys] = useRecoilState(graphKeysAtom);
 
     return (
       <div className="graph">

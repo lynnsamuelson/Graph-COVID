@@ -14,7 +14,6 @@ export default class GraphData {
             return this.getStateTotalByDaterange(state, startDate, endDate);
         })
         await Promise.all(promises);
-        this.getIndividualStateData('tn')
         return this.twoWeekData;
     }
     async getStateTotalByDaterange(state, startDate, endDate) {
@@ -48,6 +47,7 @@ export default class GraphData {
         } else {
             this.allData = [...this.allData, result];
         }
+        console.log("updateAllData", this.allData);
     }
 
     getSevenDayDataIndividualState(states, startDate, endDate) {
@@ -86,6 +86,10 @@ export default class GraphData {
                 }
             }
         }
+        this.sevenDayData = this.sevenDayData.sort((a,b) => {
+            return moment(a.date) - moment(b.date)
+        })
+        console.log("need to sort 7 day data", this.sevenDayData);
     }
 
     getSevenDayDataByStateAndDate(index, date) {

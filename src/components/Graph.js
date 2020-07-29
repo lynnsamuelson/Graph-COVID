@@ -29,20 +29,18 @@ export const Graph = () => {
       setcovidNumbers(data);
     }
     fetchData();
+    console.log("covidNumbers2", covidNumbers);
   },[states, startDate, endDate]);
 
   useEffect(() => {
     if(graphType === 'bar') {
       let data = dataToUse.getSevenDayDataIndividualState(states, startDate, endDate);
+      console.log("bar graph data", data);
       setBarGraphData(data);
     }
-  },[graphType]);
+    console.log("covidNumbers1", covidNumbers);
+},[graphType, states, startDate, endDate]);
 
-  const getData = () => {
-    let data = dataToUse.getSevenDayDataIndividualState(states, startDate, endDate);
-    setBarGraphData(data);
-    setGraphType('bar');
-  }
 
   if(graphType==='bar') {
     return(
@@ -53,7 +51,6 @@ export const Graph = () => {
   }else {
     return (
       <div className="graph">
-      <Button onClick={getData}>Get 7 Day Averages</Button>
         <ResponsiveLine
           data={covidNumbers}
           margin={{ top: 50, right: 60, bottom: 70, left: 70 }}
